@@ -36,7 +36,11 @@ object TextInserter {
         }
 
         node.performAction(AccessibilityNodeInfo.ACTION_FOCUS)
-        val existing = node.text?.toString() ?: ""
+        val existing = effectiveExistingText(
+            text = node.text?.toString(),
+            hint = node.hintText?.toString(),
+            showingHint = node.isShowingHintText,
+        )
         val selectionStart = node.textSelectionStart
             .takeIf { it in 0..existing.length } ?: existing.length
         val selectionEnd = node.textSelectionEnd
@@ -68,5 +72,18 @@ object TextInserter {
             true,
             "Could not insert text. Copied to clipboard.",
         )
+    }
+
+    internal fun effectiveExistingText(
+        text: String?,
+        hint: String?,
+        showingHint: Boolean,
+    ): String {
+        if (showingHint) return ""
+        val raw = text ?: return ""
+        val placeholder = hint?.trim().orEmpty()
+        val isPlaceholder = placeholder.isNotEmpty() &&
+            raw.trim().equals(placeholder, ignoreCase = true)
+        return if (isPlaceholder) "" else raw
     }
 }

@@ -10,7 +10,7 @@ and the transcript is inserted into the focused text field.
 [![Platform](https://img.shields.io/badge/platform-Android-3DDC84?logo=android&logoColor=white)](#requirements)
 
 <p align="center">
-  <img src="docs/screenshots/setup.png" width="240" alt="Setup screen with all permissions granted">
+
   <img src="docs/screenshots/bubble.jpg" width="240" alt="Floating bubble over a focused search field">
   <img src="docs/screenshots/settings.png" width="240" alt="Settings: provider, model, language, API key, input mode">
 </p>

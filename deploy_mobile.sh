@@ -176,8 +176,16 @@ if [ "$PLATFORM" = "android" ]; then
         if [ -n "$DEVICE_ID" ]; then
             ADB_TARGET=(-s "$DEVICE_ID")
         fi
+        A11Y_SERVICES="$(adb "${ADB_TARGET[@]}" shell settings get secure enabled_accessibility_services 2>/dev/null | tr -d '\r')"
         # Reinstall in place so app data and granted permissions survive.
         adb "${ADB_TARGET[@]}" install -r "$APK_PATH"
+        # Updates can leave the accessibility service unbound; re-assert it.
+        if [[ "$A11Y_SERVICES" == *com.example.mbdictate* ]]; then
+            echo "${BLUE}${ARROW} Re-binding accessibility service after update...${NC}"
+            adb "${ADB_TARGET[@]}" shell settings put secure enabled_accessibility_services null
+            sleep 1
+            adb "${ADB_TARGET[@]}" shell settings put secure enabled_accessibility_services "$A11Y_SERVICES"
+        fi
     else
         flutter install --release "${DEVICE_FLAG[@]}"
     fi

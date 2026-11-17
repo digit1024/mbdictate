@@ -6,6 +6,9 @@ on:
   pull_request:
   workflow_dispatch:
 
+permissions:
+  contents: write
+
 concurrency:
   group: ci-${{ github.ref }}
   cancel-in-progress: true
@@ -31,11 +34,17 @@ jobs:
       - name: Test with coverage
         run: flutter test --coverage
 
-      - name: Upload coverage to Codecov
-        uses: codecov/codecov-action@v4
+      - name: Generate coverage badge
+        run: python3 tools/coverage_badge.py coverage/lcov.info badges/coverage.svg
+
+      - name: Publish coverage badge
+        if: github.event_name != 'pull_request'
+        uses: peaceiris/actions-gh-pages@v4
         with:
-          files: coverage/lcov.info
-          fail_ci_if_error: false
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./badges
+          publish_branch: badges
+          force_orphan: true
 
       - name: Upload coverage report
         uses: actions/upload-artifact@v4

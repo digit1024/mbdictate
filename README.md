@@ -5,7 +5,7 @@ and the transcript is inserted into the focused text field.
 
 [![CI](https://github.com/digit1024/mbdictate/actions/workflows/ci.yml/badge.svg)](https://github.com/digit1024/mbdictate/actions/workflows/ci.yml)
 [![Release](https://github.com/digit1024/mbdictate/actions/workflows/release.yml/badge.svg)](https://github.com/digit1024/mbdictate/actions/workflows/release.yml)
-[![codecov](https://codecov.io/gh/digit1024/mbdictate/branch/main/graph/badge.svg)](https://codecov.io/gh/digit1024/mbdictate)
+[![coverage](https://raw.githubusercontent.com/digit1024/mbdictate/badges/coverage.svg)](https://github.com/digit1024/mbdictate/actions/workflows/ci.yml)
 [![Latest release](https://img.shields.io/github/v/release/digit1024/mbdictate?sort=semver)](https://github.com/digit1024/mbdictate/releases)
 [![Platform](https://img.shields.io/badge/platform-Android-3DDC84?logo=android&logoColor=white)](#requirements)
 

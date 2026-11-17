@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">mbdictate</string>
+    <string name="accessibility_description">Detects focused text fields and inserts dictated text. mbdictate does not read content unless you start dictation.</string>
+</resources>

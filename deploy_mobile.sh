@@ -164,17 +164,26 @@ if [ "$PLATFORM" = "android" ]; then
     echo "\n${BLUE}${BUILD} Building Android release APK...${NC}"
     flutter build apk --release
 
-    echo "\n${BLUE}${ROCKET} Installing to Android device...${NC}"
-    flutter install --release "${DEVICE_FLAG[@]}"
-
     APK_PATH="build/app/outputs/flutter-apk/app-release.apk"
-    if [ -f "$APK_PATH" ]; then
-        echo "\n${GREEN}${CHECK} APK built successfully: ${APK_PATH}${NC}"
-        echo "${GREEN}${CHECK} App installed to device${NC}"
-    else
+    if [ ! -f "$APK_PATH" ]; then
         echo "${RED}${CROSS} APK not found at expected path${NC}"
         exit 1
     fi
+
+    echo "\n${BLUE}${ROCKET} Installing to Android device...${NC}"
+    if command -v adb &> /dev/null; then
+        ADB_TARGET=()
+        if [ -n "$DEVICE_ID" ]; then
+            ADB_TARGET=(-s "$DEVICE_ID")
+        fi
+        # Reinstall in place so app data and granted permissions survive.
+        adb "${ADB_TARGET[@]}" install -r "$APK_PATH"
+    else
+        flutter install --release "${DEVICE_FLAG[@]}"
+    fi
+
+    echo "\n${GREEN}${CHECK} APK built successfully: ${APK_PATH}${NC}"
+    echo "${GREEN}${CHECK} App installed to device${NC}"
 
 elif [ "$PLATFORM" = "ios" ]; then
     echo "\n${BLUE}${BUILD} Building iOS release...${NC}"

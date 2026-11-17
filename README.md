@@ -91,7 +91,10 @@ device, mirroring the LunaAI deploy flow:
 ```
 
 The script runs `flutter clean`, `flutter pub get`, `flutter build apk --release`
-(or `flutter build ios --release --no-codesign`), then `flutter install --release`.
+(or `flutter build ios --release --no-codesign`), then installs the binary.
+On Android it uses `adb install -r`, so app data and granted
+accessibility/overlay permissions survive redeploys; without `adb` it falls back
+to `flutter install --release`, which uninstalls first and resets them.
 The Android APK lands at `build/app/outputs/flutter-apk/app-release.apk`.
 
 ## First run

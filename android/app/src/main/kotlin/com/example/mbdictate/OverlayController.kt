@@ -76,6 +76,7 @@ class OverlayController(
                 return
             }
         }
+        root?.visibility = View.VISIBLE
         if (DictationController.state == DictationController.State.IDLE) {
             setCollapsed(recording = false)
         }
@@ -84,11 +85,7 @@ class OverlayController(
     fun hideBubble() {
         if (DictationController.isBusy()) return
         if (!attached) return
-        try {
-            windowManager.removeView(root)
-        } catch (_: Exception) {
-        }
-        attached = false
+        root?.visibility = View.GONE
     }
 
     fun destroy() {
